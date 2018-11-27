@@ -9,12 +9,71 @@
     <style>
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
+
+        button  {
+            position: absolute;
+            bottom: 40px;
+            right: 10px;
+            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        }
+
+        .legend {
+            background-color: #fff;
+            border-radius: 3px;
+            bottom: 70px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            padding: 10px;
+            position: absolute;
+            right: 10px;
+            z-index: 1;
+        }
+
+        .legend h4 {
+            margin: 0 0 10px;
+        }
+
+        .legend div span {
+            border-radius: 50%;
+            display: inline-block;
+            height: 10px;
+            margin-right: 5px;
+            width: 10px;
+        }
     </style>
 </head>
 <body>
 
 <div id='map'></div>
+
+<button onclick="myFunction()">VER/OCULTAR LEYENDA</button>
+
+<div id='state-legend' class='legend'>
+    <h4>Puntos EIA</h4>
+    <div><span style='background-color: #FF5722'></span>Centrales generadoras de energía mayores a 3 MW</div>
+    <div><span style='background-color: #E91E63'></span>Puertos, astilleros o terminales marítimos</div>
+    <div><span style='background-color: #9C27B0'></span>Movimientos de tierra, minería y ext. hidrocarburos</div>
+    <div><span style='background-color: #673AB7'></span>Oleoductos, gasoductos y otros</div>
+    <div><span style='background-color: #3F51B5'></span>Instalaciones fabriles</div>
+    <div><span style='background-color: #2196F3'></span>Agroindustrias, mataderos y crianza animales</div>
+    <div><span style='background-color: #00BCD4'></span>Forestales</div>
+    <div><span style='background-color: #009688'></span>Acuicultura</div>
+    <div><span style='background-color: #CDDC39'></span>Sustancias peligrosas (explosivos, tóxicos, etc)</div>
+    <div><span style='background-color: #FFEB3B'></span>Tratamiento, acumulación y disposición de residuos</div>
+</div>
+
 <script>
+
+function myFunction() {
+    var x = document.getElementById("state-legend");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+
+
 mapboxgl.accessToken = 'pk.eyJ1IjoiaWduYWNpb2FiZSIsImEiOiJsTDV0dWFJIn0.Og513NMky_08_sXUUDsrbA';
 var map = new mapboxgl.Map({
     container: 'map', // container id
