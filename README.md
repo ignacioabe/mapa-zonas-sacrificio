@@ -17,6 +17,7 @@ Para el mapa de las zonas de sacrificio que estoy diseñando y programando para 
 - [x] Botón de búsqueda 
 - [x] Polígonos
 - [ ] Cómo se usa
-- [ ] Explicaciones Leyenda / Fuente
+- [ ] Explicaciones Leyenda
+- [x] Fuente
 - [ ] Pop up (nombre / dueño)
 - [ ] Resaltar Chile
