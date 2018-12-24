@@ -18,5 +18,7 @@ Para el mapa de las zonas de sacrificio que estoy diseñando y programando para 
 - [x] Polígonos
 - [ ] Cómo se usa
 - [ ] Explicaciones Leyenda / Fuente
-- [ ] Pop up (nombre / dueño)
+- [x] Pop up (nombre / dueño)
 - [ ] Resaltar Chile
+- [x] Traspasar diseño puntos de mb studio al mapa INDEX.html
+- [ ] Traspasar diseño recuadros de mb studio al mapa INDEX.html
