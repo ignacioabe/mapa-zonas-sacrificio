@@ -3,12 +3,12 @@ Para el mapa de las zonas de sacrificio que estoy diseñando y programando para 
 
 ## Listado zonas (de norte a sur):
 
-- [ ] Tocopilla
-- [ ] Mejillones
-- [ ] Valle del Huasco
-- [ ] Quintero Puchuncaví
-- [ ] Til Til
-- [ ] Coronel
+- [x] Tocopilla
+- [x] Mejillones
+- [x] Valle del Huasco
+- [x] Quintero Puchuncaví
+- [x] Til Til
+- [x] Coronel
 
 ## Funcionalidades por implementar
 
@@ -19,6 +19,8 @@ Para el mapa de las zonas de sacrificio que estoy diseñando y programando para 
 - [ ] Cómo se usa
 - [ ] Explicaciones Leyenda / Fuente
 - [x] Pop up (nombre / dueño)
-- [ ] Resaltar Chile
 - [x] Traspasar diseño puntos de mb studio al mapa INDEX.html
-- [ ] Traspasar diseño recuadros de mb studio al mapa INDEX.html
+- [x] Traspasar diseño recuadros de mb studio al mapa INDEX.html
+- [?] Resaltar Chile
+- [x] Traspasar diseño énfasis de Chile de mb studio al mapa INDEX.html
+

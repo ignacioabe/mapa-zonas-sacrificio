@@ -127,7 +127,7 @@ map.addControl(new MapboxGeocoder({
 // Funciones para capas de puntos y popups
 
 map.on("load", function () {
-
+    //capa PUNTOS SEIA
     map.addSource("puntos", { type: "vector", url: "mapbox://ignacioabe.cjo95ieho0kfm2xppvxfk8qjf-8p788" });
 
     map.addLayer({ 
@@ -181,6 +181,42 @@ map.on("load", function () {
     "circle-stroke-width": 1,
     "circle-stroke-opacity":  ["interpolate",["linear"],["zoom"], 6, 0, 7, 1 ]
     }
+    });
+
+    //capa RECUADROS ZONAS DE SACRIFICIO
+    map.addSource("recuadros", { type: "vector", url: "mapbox://ignacioabe.cjplywx3u01xj32lky9lvuqv6-6exyy" });
+    //RECTÁNGULOS
+    map.addLayer({ 
+        "id": "poligonosZonas",
+        "type": "line",
+        "source": "recuadros",
+        "source-layer": "zonas-sacrificio",
+        "filter": ["==", "$type", "Polygon"],
+        "layout": {},
+        "paint": {
+            "line-width": 3,
+            "line-color": "hsl(0, 100%, 52%)",
+            "line-opacity": 0.5
+        }
+
+    });
+    //ETIQUETAS
+    map.addLayer({ 
+        "id": "nombresZonas",
+        "type": "symbol",
+        "source": "recuadros",
+        "source-layer": "zonas-sacrificio",
+        "filter": ["==", "$type", "Polygon"],
+        "layout": {
+            "text-field": ["to-string", ["get", "nombre"]],
+            "text-transform": "uppercase",
+            "text-font": [
+                "Overpass Mono Light",
+                "Arial Unicode MS Regular"
+            ],
+            "text-offset": [-5, 0]
+        },
+        "paint": {"text-color": "hsl(0, 82%, 38%)"}
     });
 
 
