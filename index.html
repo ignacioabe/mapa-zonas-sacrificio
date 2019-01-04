@@ -88,7 +88,7 @@ function ocultaLeyenda() {
 mapboxgl.accessToken = 'pk.eyJ1IjoiaWduYWNpb2FiZSIsImEiOiJsTDV0dWFJIn0.Og513NMky_08_sXUUDsrbA';
 var map = new mapboxgl.Map({
     container: 'map', // container id
-    style: 'mapbox://styles/ignacioabe/cjnscm984094i2roaolbhgycb', // stylesheet location
+    style: 'mapbox://styles/ignacioabe/cjo954klu02d52sqno5da8gv3', // stylesheet location
     center: [-71.453,-32.759], // starting position [lng, lat]
     zoom: 11.28, // starting zoom
     hash: true
@@ -183,9 +183,10 @@ map.on("load", function () {
     }
     });
 
-    //capa RECUADROS ZONAS DE SACRIFICIO
+    //capa IDENTIFICACIÓN ZONAS DE SACRIFICIO
     map.addSource("recuadros", { type: "vector", url: "mapbox://ignacioabe.cjplywx3u01xj32lky9lvuqv6-6exyy" });
-    //RECTÁNGULOS
+    
+    //RECTÁNGULOS zdc
     map.addLayer({ 
         "id": "poligonosZonas",
         "type": "line",
@@ -200,7 +201,8 @@ map.on("load", function () {
         }
 
     });
-    //ETIQUETAS
+
+    //capa ETIQUETAS zdc
     map.addLayer({ 
         "id": "nombresZonas",
         "type": "symbol",
@@ -218,7 +220,6 @@ map.on("load", function () {
         },
         "paint": {"text-color": "hsl(0, 82%, 38%)"}
     });
-
 
 
     // When a click event occurs on a feature in the puntos layer, open a popup at the
