@@ -1,17 +1,26 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='utf-8' />
     <title>Mapa de las zonas de Sacrificio de Chile / datos de http://sig.sea.gob.cl/mapadeproyectos/</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.2.1/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.2.1/mapbox-gl.css' rel='stylesheet' />
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.js"></script>
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
 
-        body { margin:0; padding:0; }
-        #map { position:absolute; top:0; bottom:0; width:100%; }
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
 
-        #boton-leyenda  {
+        #boton-leyenda {
             position: absolute;
             bottom: 40px;
             right: 10px;
@@ -22,7 +31,7 @@
             background-color: #fff;
             border-radius: 3px;
             bottom: 70px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.10);
             font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
             padding: 10px;
             position: absolute;
@@ -45,225 +54,243 @@
         .mapboxgl-popup-content {
             max-width: 240px;
         }
-
     </style>
 </head>
+
 <body>
 
-<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.min.js'></script>
-<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css' type='text/css' />
-        
-<div id='map'></div>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.min.js'>
+    </script>
+    <link rel='stylesheet'
+        href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css'
+        type='text/css' />
 
-<button id="boton-leyenda" onclick="ocultaLeyenda()">VER/OCULTAR LEYENDA</button>
+    <div id='map'></div>
 
-<div id='state-legend' class='legend'>
-    <h4>Puntos: Estudios de Impacto Ambiental (aprobados)</h4>
-    <div><span style='background-color: #FF5722'></span>Centrales generadoras de energía mayores a 3 MW</div>
-    <div><span style='background-color: #E91E63'></span>Puertos, astilleros o terminales marítimos</div>
-    <div><span style='background-color: #9C27B0'></span>Movimientos de tierra, minería y ext. hidrocarburos</div>
-    <div><span style='background-color: #673AB7'></span>Oleoductos, gasoductos y otros</div>
-    <div><span style='background-color: #3F51B5'></span>Instalaciones fabriles</div>
-    <div><span style='background-color: #2196F3'></span>Agroindustrias, mataderos y crianza animales</div>
-    <div><span style='background-color: #00BCD4'></span>Forestales</div>
-    <div><span style='background-color: #009688'></span>Acuicultura</div>
-    <div><span style='background-color: #CDDC39'></span>Sustancias peligrosas (explosivos, tóxicos, etc)</div>
-    <div><span style='background-color: #FFEB3B'></span>Tratamiento, acumulación y disposición de residuos</div>
-    <div><span style='background-color: #908989'></span>Otros (no contaminantes)</div>
-    <div><p>Fuente: <a href="http://sig.sea.gob.cl/mapadeproyectos/">proyectos sometidos al SEIA</a></p></div>
+    <button id="boton-leyenda" onclick="ocultaLeyenda()">VER/OCULTAR LEYENDA</button>
 
-</div>
+    <div id='state-legend' class='legend'>
+        <h4>Puntos: Estudios de Impacto Ambiental (aprobados)</h4>
+        <div><span style='background-color: #FF5722'></span>Centrales generadoras de energía mayores a 3 MW</div>
+        <div><span style='background-color: #E91E63'></span>Puertos, astilleros o terminales marítimos</div>
+        <div><span style='background-color: #9C27B0'></span>Movimientos de tierra, minería y ext. hidrocarburos</div>
+        <div><span style='background-color: #673AB7'></span>Oleoductos, gasoductos y otros</div>
+        <div><span style='background-color: #3F51B5'></span>Instalaciones fabriles</div>
+        <div><span style='background-color: #2196F3'></span>Agroindustrias, mataderos y crianza animales</div>
+        <div><span style='background-color: #00BCD4'></span>Forestales</div>
+        <div><span style='background-color: #009688'></span>Acuicultura</div>
+        <div><span style='background-color: #CDDC39'></span>Sustancias peligrosas (explosivos, tóxicos, etc)</div>
+        <div><span style='background-color: #FFEB3B'></span>Tratamiento, acumulación y disposición de residuos</div>
+        <div><span style='background-color: #908989'></span>Otros (no contaminantes)</div>
+        <div>
+            <p>Fuente: <a href="http://sig.sea.gob.cl/mapadeproyectos/">proyectos sometidos al SEIA</a></p>
+        </div>
 
-<script>
+    </div>
 
-function ocultaLeyenda() {
-    var x = document.getElementById("state-legend");
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
-    }
-}
-
-mapboxgl.accessToken = 'pk.eyJ1IjoiaWduYWNpb2FiZSIsImEiOiJsTDV0dWFJIn0.Og513NMky_08_sXUUDsrbA';
-var map = new mapboxgl.Map({
-    container: 'map', // container id
-    style: 'mapbox://styles/ignacioabe/ckitb0e111qyl1at4jd676vkq', // stylesheet location
-    center: [-71.453,-32.759], // starting position [lng, lat]
-    zoom: 11.28, // starting zoom
-    hash: true
-});
-
-//CONTROLES
-
-var fulls = new mapboxgl.FullscreenControl();
-
-map.addControl(fulls, "top-left");
-
-var nav = new mapboxgl.NavigationControl();
-
-map.addControl(nav, "top-left");
-
-var geoloc = new mapboxgl.GeolocateControl({
-    positionOptions: {
-        enableHighAccuracy: true
-    },
-    trackUserLocation: true
-});
-
-map.addControl(geoloc, "top-left");
-
-map.addControl(new MapboxGeocoder({
-    accessToken: mapboxgl.accessToken,
-    language: 'es',
-    country: "cl",
-    placeholder: "BUSCAR UN LUGAR",
-    types: "place,locality"
-
-}));
-
-// Fin controles
-
-// Funciones para capas de puntos y popups
-
-map.on("load", function () {
-    //capa PUNTOS SEIA
-    map.addSource("puntos", { type: "vector", url: "mapbox://ignacioabe.cjo95ieho0kfm2xppvxfk8qjf-8p788" });
-
-    map.addLayer({ 
-    "id": "circulos",
-    "type": "circle",
-    "source": "puntos",
-    "source-layer": "EIA_CHILE",
-    "layout": {
-    // "icon-image": "castle-15",
-    // "icon-allow-overlap": true
-    },
-    "paint": {
-    "circle-radius": ["interpolate", ["linear"], ["zoom"], 7, 2, 11, 8],
-        'circle-color': ["match",
-        ["get", "LETRA_TIPOLOGIA"],
-        ["c"],
-        "#FF5722",
-        ["f1", "f3", "f4"],
-        "#e91e63",
-        ["i1", "i2", "i5", "i4"],
-        "#9C27B0",
-        ["j1", "j2", "j3", "j4"],
-        "#673ab7",
-        ["k1", "k2"],
-        "#3f51b5",
-        ["l1", "l2", "l3", "l4"],
-        "#2196f3",
-        ["m1", "m3", "m4"],
-        "#00BCD4",
-        ["n5", "n3", "n6"],
-        "#009688",
-        ["ñ1", "ñ2", "ñ4", "ñ5"],
-        "#cddc39",
-        [
-            "o1",
-            "o3",
-            "o4",
-            "o5",
-            "o6",
-            "o7",
-            "o8",
-            "o9",
-            "o10",
-            "o11"
-        ],
-        "#ffeb3b",
-        "#908989"
-        ],
-    "circle-opacity": ["interpolate",["linear"],["zoom"], 6, 0, 7, 1 ],
-    "circle-stroke-color": "#fff",
-    "circle-stroke-width": 1,
-    "circle-stroke-opacity":  ["interpolate",["linear"],["zoom"], 6, 0, 7, 1 ]
-    }
-    });
-
-    //capa IDENTIFICACIÓN ZONAS DE SACRIFICIO
-    map.addSource("recuadros", { type: "vector", url: "mapbox://ignacioabe.cjplywx3u01xj32lky9lvuqv6-6exyy" });
-    
-    //RECTÁNGULOS zdc
-    map.addLayer({ 
-        "id": "poligonosZonas",
-        "type": "line",
-        "source": "recuadros",
-        "source-layer": "zonas-sacrificio",
-        "filter": ["==", "$type", "Polygon"],
-        "layout": {},
-        "paint": {
-            "line-width": 3,
-            "line-color": "hsl(0, 100%, 52%)",
-            "line-opacity": 0.5
+    <script>
+        function ocultaLeyenda() {
+            var x = document.getElementById("state-legend");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
         }
 
-    });
+        mapboxgl.accessToken = 'pk.eyJ1IjoiaWduYWNpb2FiZSIsImEiOiJsTDV0dWFJIn0.Og513NMky_08_sXUUDsrbA';
+        var map = new mapboxgl.Map({
+            container: 'map', // container id
+            style: 'mapbox://styles/ignacioabe/ckitb0e111qyl1at4jd676vkq', // stylesheet location
+            center: [-71.453, -32.759], // starting position [lng, lat]
+            zoom: 11.28, // starting zoom
+            hash: true
+        });
 
-    //capa ETIQUETAS zdc
-    map.addLayer({ 
-        "id": "nombresZonas",
-        "type": "symbol",
-        "source": "recuadros",
-        "source-layer": "zonas-sacrificio",
-        "filter": ["==", "$type", "Polygon"],
-        "layout": {
-            "text-field": ["to-string", ["get", "nombre"]],
-            "text-transform": "uppercase",
-            "text-font": [
-                "Overpass Mono Light",
-                "Arial Unicode MS Regular"
-            ],
-            "text-offset": [-5, 0]
-        },
-        "paint": {"text-color": "hsl(0, 82%, 38%)"}
-    });
+        //CONTROLES
+
+        var fulls = new mapboxgl.FullscreenControl();
+
+        map.addControl(fulls, "top-left");
+
+        var nav = new mapboxgl.NavigationControl();
+
+        map.addControl(nav, "top-left");
+
+        var geoloc = new mapboxgl.GeolocateControl({
+            positionOptions: {
+                enableHighAccuracy: true
+            },
+            trackUserLocation: true
+        });
+
+        map.addControl(geoloc, "top-left");
+
+        map.addControl(new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken,
+            language: 'es',
+            country: "cl",
+            placeholder: "BUSCAR UN LUGAR",
+            types: "place,locality"
+
+        }));
+
+        // Fin controles
+
+        // Funciones para capas de puntos y popups
+
+        map.on("load", function () {
+            //capa PUNTOS SEIA
+            map.addSource("puntos", {
+                type: "vector",
+                url: "mapbox://ignacioabe.cjo95ieho0kfm2xppvxfk8qjf-8p788"
+            });
+
+            map.addLayer({
+                "id": "circulos",
+                "type": "circle",
+                "source": "puntos",
+                "source-layer": "EIA_CHILE",
+                "layout": {
+                    // "icon-image": "castle-15",
+                    // "icon-allow-overlap": true
+                },
+                "paint": {
+                    "circle-radius": ["interpolate", ["linear"],
+                        ["zoom"], 7, 2, 11, 8
+                    ],
+                    'circle-color': ["match",
+                        ["get", "LETRA_TIPOLOGIA"],
+                        ["c"],
+                        "#FF5722",
+                        ["f1", "f3", "f4"],
+                        "#e91e63",
+                        ["i1", "i2", "i5", "i4"],
+                        "#9C27B0",
+                        ["j1", "j2", "j3", "j4"],
+                        "#673ab7",
+                        ["k1", "k2"],
+                        "#3f51b5",
+                        ["l1", "l2", "l3", "l4"],
+                        "#2196f3",
+                        ["m1", "m3", "m4"],
+                        "#00BCD4",
+                        ["n5", "n3", "n6"],
+                        "#009688",
+                        ["ñ1", "ñ2", "ñ4", "ñ5"],
+                        "#cddc39",
+                        [
+                            "o1",
+                            "o3",
+                            "o4",
+                            "o5",
+                            "o6",
+                            "o7",
+                            "o8",
+                            "o9",
+                            "o10",
+                            "o11"
+                        ],
+                        "#ffeb3b",
+                        "#908989"
+                    ],
+                    "circle-opacity": ["interpolate", ["linear"],
+                        ["zoom"], 6, 0, 7, 1
+                    ],
+                    "circle-stroke-color": "#fff",
+                    "circle-stroke-width": 1,
+                    "circle-stroke-opacity": ["interpolate", ["linear"],
+                        ["zoom"], 6, 0, 7, 1
+                    ]
+                }
+            });
+
+            //capa IDENTIFICACIÓN ZONAS DE SACRIFICIO
+            map.addSource("recuadros", {
+                type: "vector",
+                url: "mapbox://ignacioabe.cjplywx3u01xj32lky9lvuqv6-6exyy"
+            });
+
+            //RECTÁNGULOS zdc
+            map.addLayer({
+                "id": "poligonosZonas",
+                "type": "line",
+                "source": "recuadros",
+                "source-layer": "zonas-sacrificio",
+                "filter": ["==", "$type", "Polygon"],
+                "layout": {},
+                "paint": {
+                    "line-width": 3,
+                    "line-color": "hsl(0, 100%, 52%)",
+                    "line-opacity": 0.5
+                }
+
+            });
+
+            //capa ETIQUETAS zdc
+            map.addLayer({
+                "id": "nombresZonas",
+                "type": "symbol",
+                "source": "recuadros",
+                "source-layer": "zonas-sacrificio",
+                "filter": ["==", "$type", "Polygon"],
+                "layout": {
+                    "text-field": ["to-string", ["get", "nombre"]],
+                    "text-transform": "uppercase",
+                    "text-font": [
+                        "Overpass Mono Light",
+                        "Arial Unicode MS Regular"
+                    ],
+                    "text-offset": [-5, 0]
+                },
+                "paint": {
+                    "text-color": "hsl(0, 82%, 38%)"
+                }
+            });
 
 
-    // When a click event occurs on a feature in the puntos layer, open a popup at the
-    // location of the feature, with description HTML from its properties._
-    map.on("click", "circulos", function (e) {
-    var coordinates = e.features[0].geometry.coordinates.slice();
-    var titular = e.features[0].properties.TITULAR;
-    var nombre = e.features[0].properties.NOMBRE_PROYECTO;
-    var fechaCal = e.features[0].properties.FECHA_CALIFICACION;
-    var nombreTipo = e.features[0].properties.NOMBRE_TIPOLOGIA;
+            // When a click event occurs on a feature in the puntos layer, open a popup at the
+            // location of the feature, with description HTML from its properties._
+            map.on("click", "circulos", function (e) {
+                var coordinates = e.features[0].geometry.coordinates.slice();
+                var titular = e.features[0].properties.TITULAR;
+                var nombre = e.features[0].properties.NOMBRE_PROYECTO;
+                var fechaCal = e.features[0].properties.FECHA_CALIFICACION;
+                var nombreTipo = e.features[0].properties.NOMBRE_TIPOLOGIA;
 
-    // Ensure that if the map is zoomed out such that multiple
-    // copies of the feature are visible, the popup appears
-    // over the copy being pointed to.
-    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-    }
+                // Ensure that if the map is zoomed out such that multiple
+                // copies of the feature are visible, the popup appears
+                // over the copy being pointed to.
+                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                }
 
-    new mapboxgl.Popup()
-    .setLngLat(coordinates)
-    .setHTML(`<strong>${nombre}</strong>
+                new mapboxgl.Popup()
+                    .setLngLat(coordinates)
+                    .setHTML(`<strong>${nombre}</strong>
     <p>TITULAR: ${titular}</p>
     <p>FECHA CALIF.: ${fechaCal}</p>
     <p>TIPOLOGÍA: ${nombreTipo}</p>`)
-    .addTo(map);
-    });
+                    .addTo(map);
+            });
 
-    // Change the cursor to a pointer when the mouse is over the puntos layer.
-    map.on("mouseenter", "circulos", function () {
-    map.getCanvas().style.cursor = "pointer";
-    });
+            // Change the cursor to a pointer when the mouse is over the puntos layer.
+            map.on("mouseenter", "circulos", function () {
+                map.getCanvas().style.cursor = "pointer";
+            });
 
-    // Change it back to a pointer when it leaves.
-    map.on("mouseleave", "circulos", function () {
-    map.getCanvas().style.cursor = "";
-    });
+            // Change it back to a pointer when it leaves.
+            map.on("mouseleave", "circulos", function () {
+                map.getCanvas().style.cursor = "";
+            });
 
-    // // Esto es para encuadrar el país independiente del tamaño del mapa en pixeles.
-    // let encuadre = [[-3.773, 40.410], [-3.710, 40.507]]
-    // map.fitBounds(encuadre, {speed: 0.075});
+            // // Esto es para encuadrar el país independiente del tamaño del mapa en pixeles.
+            // let encuadre = [[-3.773, 40.410], [-3.710, 40.507]]
+            // map.fitBounds(encuadre, {speed: 0.075});
 
-});
-
-</script>
+        });
+    </script>
 
 </body>
+
 </html>
